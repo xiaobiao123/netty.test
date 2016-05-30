@@ -47,6 +47,7 @@ public class NettyServerBootstrap {
           //ChannelPipeline可以理解成一个消息（ 或消息事件，ChanelEvent）流转的通道，在这个通道中可以被附上许多用来处理消息的handler，
           //当消息在这个通道中流转的时候，如果有与这个消息类型相对应的handler，就会触发这个handler去执行相应的动作。它实现了Intercepting Filter模式（个人理解与Filter Chain模式类似）。
         }
+        
       });
       ChannelFuture f = bootstrap.bind(port).sync();
       if (f.isSuccess()) {
