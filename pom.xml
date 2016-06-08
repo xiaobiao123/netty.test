@@ -18,12 +18,24 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>5.0.0.Alpha2</version>
+			<version>5.0.0.Alpha1</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
+		<!-- JiBX 是一个绑定 XML 数据到 Java 对象的框架 -->
+		<dependency>
+			<groupId>org.jibx</groupId>
+			<artifactId>jibx-bind</artifactId>
+			<version>1.2.4.5</version>
 		</dependency>
 
 	</dependencies>

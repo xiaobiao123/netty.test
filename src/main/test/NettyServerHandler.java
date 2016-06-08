@@ -7,43 +7,43 @@ import java.io.UnsupportedEncodingException;
 
 public class NettyServerHandler extends ChannelHandlerAdapter {
 
-  @Override
-  public void channelRead(ChannelHandlerContext ctx, Object msg) {
-    
-    ByteBuf buf = (ByteBuf) msg;
-    
-    String recieved = getMessage(buf);
-    System.out.println("服务器接收到消息：" + recieved);
-    
-    try {
-      ctx.writeAndFlush(getSendByteBuf("服务器返回消息"));
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-    }
-  }
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
-  /*
-   * 从ByteBuf中获取信息 使用UTF-8编码返回
-   */
-  private String getMessage(ByteBuf buf) {
+		ByteBuf buf = (ByteBuf) msg;
+		// 接收客户端请求消息
+		String recieved = getMessage(buf);
+		System.out.println("服务器接收到消息：" + recieved);
 
-    byte[] con = new byte[buf.readableBytes()];
-    buf.readBytes(con);
-    try {
-      return new String(con, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
-  
-  private ByteBuf getSendByteBuf(String message)
-      throws UnsupportedEncodingException {
+		try {
+			// 想服务端响应的消息返回给客户端
+			ctx.writeAndFlush(getSendByteBuf("服务器返回消息"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
 
-    byte[] req = message.getBytes("UTF-8");
-    ByteBuf pingMessage = Unpooled.buffer();
-    pingMessage.writeBytes(req);
+	/*
+	 * 从ByteBuf中获取信息 使用UTF-8编码返回
+	 */
+	private String getMessage(ByteBuf buf) {
 
-    return pingMessage;
-  }
+		byte[] con = new byte[buf.readableBytes()];
+		buf.readBytes(con);
+		try {
+			return new String(con, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private ByteBuf getSendByteBuf(String message) throws UnsupportedEncodingException {
+
+		byte[] req = message.getBytes("UTF-8");
+		ByteBuf pingMessage = Unpooled.buffer();// 创建一个新的Java堆大端法和相当小的初始容量缓冲区--无限地扩展其能力的需求
+		pingMessage.writeBytes(req);
+
+		return pingMessage;
+	}
 }
